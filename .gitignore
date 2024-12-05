@@ -1,0 +1,6 @@
+node_modules
+.env
+logger/logs/access
+logger/logs/error
+logger/logs/info
+db/database.db
