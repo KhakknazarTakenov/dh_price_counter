@@ -121,7 +121,7 @@ app.post(BASE_URL+"get_deals_from_bx_insert_in_db/", async (req, res) => {
         logMessage(LOG_TYPES.E, "/get_deals_from_bx_insert_in_db/", error);
         res.status(500).json(RESPONSES.INTERNAL_SERVER_ERROR);
     }
-})
+}, haltOnTimedOut)
 
 app.post(BASE_URL+"get_deals_product_rows_from_bx_insert_in_db/", async (req, res) => {
     try {
@@ -144,7 +144,7 @@ app.post(BASE_URL+"get_deals_product_rows_from_bx_insert_in_db/", async (req, re
         logMessage(LOG_TYPES.E, "/get_deals_from_bx_insert_in_db/", error);
         res.status(500).json(RESPONSES.INTERNAL_SERVER_ERROR);
     }
-})
+}, haltOnTimedOut)
 
 app.post(BASE_URL + "init/", async (req, res) => {
     try {
