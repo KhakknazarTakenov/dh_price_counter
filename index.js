@@ -8,7 +8,7 @@ import './global.js';
 import fs from "fs";
 
 
-import { logMessage } from "./logger/logger.js";
+import { logMessage, writeDataToJsonFile } from "./logger/logger.js";
 import {Db} from "./services/db.js";
 import {decryptText, encryptText, generateCryptoKeyAndIV} from "./services/crypto.js";
 import { DealsService } from "./services/deals.js";
@@ -145,6 +145,16 @@ app.post(BASE_URL+"get_deals_product_rows_from_bx_insert_in_db/", async (req, re
         res.status(500).json(RESPONSES.INTERNAL_SERVER_ERROR);
     }
 }, haltOnTimedOut)
+
+app.post(BASE_URL+"write_backlog/", async (req, res) => {
+    try {
+        const data = req.body.data;
+        await writeDataToJsonFile(data);
+    } catch (error) {
+        logMessage(LOG_TYPES.E, "/write_backlog/", error);
+        res.status(500).json(RESPONSES.INTERNAL_SERVER_ERROR);
+    }
+})
 
 app.post(BASE_URL + "init/", async (req, res) => {
     try {

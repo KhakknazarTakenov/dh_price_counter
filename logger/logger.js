@@ -57,4 +57,49 @@ function formatDate(date) {
     return `${year}-${month}-${day}`;
 }
 
-export { logMessage };
+/**
+ * Writes data to a JSON file with the current date and time in the filename.
+ *
+ * @param {Array} data - The data to write to the JSON file.
+ */
+function writeDataToJsonFile(data) {
+    try {
+        // Get the current date and time
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const year = now.getFullYear();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
+        // Generate the filename in dd_mm_yyyy_hh_mm format
+        const fileName = `${day}_${month}_${year}_${hours}_${minutes}.json`;
+
+        // Define the path to the backlogs directory
+        const backlogsDir = path.join(process.cwd(), 'logger', 'backlogs');
+
+        // Ensure the directory exists
+        if (!fs.existsSync(backlogsDir)) {
+            fs.mkdirSync(backlogsDir, { recursive: true });
+        }
+
+        // Define the full path to the JSON file
+        const filePath = path.join(backlogsDir, fileName);
+
+        // Write the data to the JSON file
+        fs.writeFile(filePath, JSON.stringify(data, null, 2), (err) => {
+            if (err) {
+                console.error('Error writing to JSON file:', err);
+            } else {
+                console.log(`Data successfully written to ${filePath}`);
+            }
+        });
+    } catch (error) {
+        console.error('Unexpected error writing JSON file:', error);
+    }
+}
+
+
+
+
+export { logMessage, writeDataToJsonFile };
